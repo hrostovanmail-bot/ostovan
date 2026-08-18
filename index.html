@@ -8,13 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    
-    <!-- ====== کتابخونه xlsx برای خواندن فایل‌های رمزدار ====== -->
-    <!-- این نسخه از SheetJS از رمز پشتیبانی میکنه -->
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        /* ====== همه استایل‌ها مثل قبل ====== */
+        /* ====== همه استایل‌های قبلی ====== */
         :root {
             --primary: #4f46e5;
             --primary-light: #818cf8;
@@ -101,6 +97,7 @@
         .glass-card:nth-child(6) { animation-delay:0.30s; }
         .glass-card:nth-child(7) { animation-delay:0.35s; }
         .glass-card:nth-child(8) { animation-delay:0.40s; }
+
         .stats-box {
             display:flex;
             gap:20px;
@@ -153,6 +150,7 @@
         }
         .stat-item .label { font-size:0.85rem; color:var(--text-muted); display:block; margin-top:4px; }
         .stat-item .hint { font-size:0.6rem; color:rgba(148,163,184,0.5); margin-top:4px; }
+
         .kpi-box {
             display:flex;
             gap:25px;
@@ -204,6 +202,7 @@
             width:0%;
             transition:width 1.2s ease;
         }
+
         .filter-section {
             display:flex;
             flex-wrap:wrap;
@@ -244,6 +243,7 @@
             cursor:pointer;
         }
         .btn-reset:hover { background:rgba(255,255,255,0.08); color:var(--text-light); }
+
         .chart-container { position:relative; height:260px; width:100%; }
         .chart-container-sm { height:200px; }
         .chart-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
@@ -258,6 +258,7 @@
         }
         .card-chart:hover { border-color:rgba(79,70,229,0.1); }
         .card-chart h6 { font-size:0.9rem; color:var(--text-muted); text-align:center; margin-bottom:8px; font-weight:500; }
+
         .table-wrap {
             max-height:450px;
             overflow-y:auto;
@@ -287,6 +288,7 @@
         }
         td { padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.02); vertical-align:middle; font-size:0.78rem; }
         tr:hover td { background:rgba(79,70,229,0.03); }
+
         .badge-status {
             padding:2px 12px;
             border-radius:20px;
@@ -299,115 +301,67 @@
         .badge-hire { background:rgba(79,70,229,0.15); color:#818cf8; border:1px solid rgba(79,70,229,0.1); }
         .badge-exit { background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.1); }
         .badge-hourly { background:rgba(245,158,11,0.15); color:#f59e0b; border:1px solid rgba(245,158,11,0.1); }
-        #loginPage {
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:var(--dark-bg);
-            z-index:9999;
-        }
-        #loginPage .login-box {
-            max-width:420px;
-            width:90%;
-            padding:40px 35px;
+
+        .upload-area {
+            border:2px dashed rgba(255,255,255,0.06);
+            border-radius:var(--radius);
+            padding:30px;
             text-align:center;
-        }
-        #loginPage .login-box .logo {
-            font-size:3rem;
-            margin-bottom:10px;
-            background:linear-gradient(135deg,#e2e8f0,#818cf8);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-        }
-        #loginPage .login-box h3 {
-            font-weight:700;
-            font-size:1.5rem;
-            margin-bottom:5px;
-        }
-        #loginPage .login-box .sub {
-            color:var(--text-muted);
-            font-size:0.85rem;
-            margin-bottom:20px;
-        }
-        #loginPage .login-box input {
-            width:100%;
-            padding:12px 16px;
-            border-radius:12px;
-            background:rgba(255,255,255,0.05);
-            border:1px solid rgba(255,255,255,0.08);
-            color:var(--text-light);
-            font-size:1rem;
-            outline:none;
-            transition:0.3s;
-            text-align:center;
-            letter-spacing:2px;
-        }
-        #loginPage .login-box input:focus {
-            border-color:var(--primary-light);
-            box-shadow:0 0 0 3px rgba(79,70,229,0.15);
-        }
-        #loginPage .login-box .login-btn {
-            width:100%;
-            padding:12px;
-            border-radius:12px;
-            background:linear-gradient(135deg,#4f46e5,#0ea5e9);
-            border:none;
-            color:#fff;
-            font-weight:700;
-            font-size:1rem;
             cursor:pointer;
             transition:0.3s;
-            margin-top:15px;
+            background:rgba(255,255,255,0.01);
         }
-        #loginPage .login-box .login-btn:hover {
-            transform:scale(1.02);
-            box-shadow:0 0 30px rgba(79,70,229,0.3);
+        .upload-area:hover { border-color:var(--primary-light); background:rgba(79,70,229,0.03); box-shadow:0 0 40px rgba(79,70,229,0.02); }
+        .upload-area i {
+            font-size:2.8rem;
+            background:linear-gradient(135deg,var(--primary-light),var(--secondary));
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            opacity:0.6;
+            display:block;
+            margin-bottom:8px;
         }
-        #loginPage .login-box .login-error {
-            color:#ef4444;
-            margin-top:12px;
+        .upload-area p { color:var(--text-muted); margin:0; }
+        .upload-area small { color:rgba(148,163,184,0.5); }
+        .file-status { display:flex; gap:20px; justify-content:center; margin-top:12px; flex-wrap:wrap; }
+        .file-status .file-item {
+            background:rgba(255,255,255,0.03);
+            padding:6px 16px;
+            border-radius:10px;
+            border:1px solid rgba(255,255,255,0.04);
+            font-size:0.8rem;
+        }
+        .file-status .file-item .icon { margin-left:8px; }
+        .file-status .file-item .icon.ok { color:#22c55e; }
+        .file-status .file-item .icon.wait { color:#f59e0b; }
+
+        .modal-content {
+            background:#1e293b;
+            border:1px solid rgba(255,255,255,0.06);
+            border-radius:var(--radius);
+            box-shadow:var(--shadow);
+        }
+        .modal-header { border-bottom:1px solid rgba(255,255,255,0.04); }
+        .modal-header .btn-close { filter:invert(1); }
+        .modal-body { max-height:70vh; overflow-y:auto; }
+        .modal-footer { border-top:1px solid rgba(255,255,255,0.04); }
+
+        .btn-export-app {
+            background:linear-gradient(135deg,#f59e0b,#f97316);
+            border:none;
+            border-radius:10px;
+            padding:6px 16px;
+            color:#fff;
+            font-weight:600;
             font-size:0.85rem;
-            display:none;
+            cursor:pointer;
+            transition:0.3s;
         }
-        #loginPage .login-box .hint {
-            color:rgba(148,163,184,0.4);
-            font-size:0.7rem;
-            margin-top:15px;
+        .btn-export-app:hover {
+            transform:scale(1.05);
+            box-shadow:0 0 30px rgba(245,158,11,0.3);
         }
-        #loadingOverlay {
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background:rgba(15,23,42,0.85);
-            display:none;
-            justify-content:center;
-            align-items:center;
-            z-index:9998;
-            flex-direction:column;
-            gap:15px;
-        }
-        #loadingOverlay .spinner {
-            width:50px;
-            height:50px;
-            border:4px solid rgba(255,255,255,0.05);
-            border-top-color:var(--primary-light);
-            border-radius:50%;
-            animation:spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform:rotate(360deg); } }
-        #loadingOverlay .loading-text {
-            color:var(--text-muted);
-            font-size:0.9rem;
-        }
-        #mainContent { display:none; }
-        .upload-area { display:none; }
+
         @media (max-width:768px) {
             body { padding:8px; }
             .container { padding:0 4px; }
@@ -438,12 +392,17 @@
             table { min-width:800px; font-size:0.7rem; }
             th { font-size:0.6rem; padding:6px 8px; }
             td { padding:4px 8px; font-size:0.65rem; }
+            .upload-area { padding:16px; }
+            .upload-area i { font-size:2rem; }
+            .upload-area p { font-size:0.8rem; }
+            .file-status { gap:8px; }
+            .file-status .file-item { font-size:0.7rem; padding:4px 10px; }
             h2 { font-size:1.2rem !important; }
             .btn-outline-light { font-size:0.7rem; padding:2px 10px; }
             .modal-dialog { margin:4px; }
             .modal-content { border-radius:14px; }
             #detailSearch { width:140px !important; font-size:0.7rem; }
-            #loginPage .login-box { padding:30px 20px; }
+            .btn-export-app { font-size:0.7rem; padding:4px 10px; }
         }
         @media (min-width:769px) and (max-width:1024px) {
             .stats-box { gap:12px; }
@@ -453,8 +412,6 @@
         }
         @media print {
             #particles-canvas { display:none; }
-            #loginPage { display:none !important; }
-            #loadingOverlay { display:none !important; }
             body { background:#fff; color:#000; padding:10px; }
             .glass-card { background:#fff; backdrop-filter:none; border:1px solid #ddd; box-shadow:none; }
             .stat-item { background:#f8f9fa; border:1px solid #ddd; }
@@ -472,273 +429,266 @@
 </head>
 <body>
 
-<!-- ====== صفحه ورود ====== -->
-<div id="loginPage">
-    <div class="glass-card login-box">
-        <div class="logo">🔐</div>
-        <h3>داشبورد منابع انسانی</h3>
-        <p class="sub">برای مشاهده گزارشات، رمز عبور را وارد کنید</p>
-        <input type="password" id="loginPassword" placeholder="••••••••" 
-               onkeydown="if(event.key==='Enter') checkLogin()" autofocus>
-        <button class="login-btn" onclick="checkLogin()">
-            <i class="fas fa-lock-open" style="margin-left:8px;"></i> ورود به داشبورد
-        </button>
-        <div class="login-error" id="loginError">❌ رمز عبور اشتباه است</div>
-        <div class="hint">این سیستم فقط برای کاربران مجاز قابل دسترسی است</div>
+<canvas id="particles-canvas"></canvas>
+<div class="container">
+
+    <!-- ====== هدر ====== -->
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div>
+            <h2 style="font-weight:900;font-size:1.8rem;background:linear-gradient(135deg,#e2e8f0,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+                <i class="fas fa-chart-line" style="color:#818cf8;margin-left:12px;-webkit-text-fill-color:initial;"></i>
+                داشبورد جامع منابع انسانی و حقوق
+            </h2>
+            <small style="color:var(--text-muted);">تحلیل داده‌های پرسنل با گزارشات مالی و حقوقی</small>
+        </div>
+        <div>
+            <span id="headerTotal" style="font-size:0.9rem;color:var(--text-muted);margin-left:15px;background:rgba(255,255,255,0.05);padding:4px 12px;border-radius:10px;">👥 ۰ نفر</span>
+            <button class="btn btn-outline-light btn-sm" style="border-radius:10px;border-color:rgba(255,255,255,0.1);color:var(--text-muted);" onclick="window.print()">
+                <i class="fas fa-print"></i> چاپ
+            </button>
+            <button class="btn-export-app" onclick="exportStandaloneApp()" style="margin-right:8px;">
+                <i class="fas fa-file-export"></i> خروجی نرم‌افزار مستقل
+            </button>
+        </div>
     </div>
-</div>
 
-<!-- ====== لودینگ ====== -->
-<div id="loadingOverlay">
-    <div class="spinner"></div>
-    <div class="loading-text">⏳ در حال بارگذاری داده‌ها...</div>
-</div>
-
-<!-- ====== محتوای اصلی ====== -->
-<div id="mainContent">
-    <canvas id="particles-canvas"></canvas>
-    <div class="container">
-
-        <!-- هدر -->
-        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
-            <div>
-                <h2 style="font-weight:900;font-size:1.8rem;background:linear-gradient(135deg,#e2e8f0,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
-                    <i class="fas fa-chart-line" style="color:#818cf8;margin-left:12px;-webkit-text-fill-color:initial;"></i>
-                    داشبورد جامع منابع انسانی و حقوق
-                </h2>
-                <small style="color:var(--text-muted);">تحلیل داده‌های پرسنل با گزارشات مالی و حقوقی</small>
+    <!-- ====== آپلود ====== -->
+    <div class="glass-card">
+        <div class="card-body">
+            <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>بارگذاری همزمان دو فایل اکسل یا CSV</p>
+                <small>فایل اول: اطلاعات پایه | فایل دوم: اطلاعات حقوقی</small>
+                <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" multiple style="display:none" onchange="loadFiles(event)">
             </div>
-            <div>
-                <span id="headerTotal" style="font-size:0.9rem;color:var(--text-muted);margin-left:15px;background:rgba(255,255,255,0.05);padding:4px 12px;border-radius:10px;">👥 ۰ نفر</span>
-                <button class="btn btn-outline-light btn-sm" style="border-radius:10px;border-color:rgba(255,255,255,0.1);color:var(--text-muted);" onclick="window.print()">
-                    <i class="fas fa-print"></i> چاپ
-                </button>
-            </div>
+            <div id="fileStatus" class="file-status"></div>
+            <div id="errorLog" class="mt-2 text-center text-danger small" style="display:none;"></div>
         </div>
-
-        <!-- ====== کارت‌های آماری ====== -->
-        <div id="statsContainer" style="display:none;">
-            <div class="stats-box">
-                <div class="stat-item" onclick="openDetailModal('active')" title="مشاهده لیست پرسنل فعلی">
-                    <span class="number green" id="statActive">0</span>
-                    <span class="label">✅ پرسنل فعلی</span>
-                    <div class="hint">کلیک کنید</div>
-                </div>
-                <div class="stat-item" onclick="openDetailModal('hire')" title="مشاهده لیست استخدام‌ها">
-                    <span class="number" id="statHire">0</span>
-                    <span class="label">📅 استخدام‌ها</span>
-                    <div class="hint">کلیک کنید</div>
-                </div>
-                <div class="stat-item" onclick="openDetailModal('exit')" title="مشاهده لیست خروج‌ها">
-                    <span class="number red" id="statExit">0</span>
-                    <span class="label">🚪 خروج‌ها</span>
-                    <div class="hint">کلیک کنید</div>
-                </div>
-            </div>
-
-            <!-- کارت‌های مالی (فقط فعال‌ها) -->
-            <div class="stats-box" id="financialStats">
-                <div class="stat-item" onclick="openDetailModal('salary')" title="مشاهده لیست حقوق پرسنل فعال">
-                    <span class="number gold" id="statTotalSalary">۰</span>
-                    <span class="label">💰 هزینه کل پرسنل</span>
-                    <div class="hint">فقط فعال‌ها</div>
-                </div>
-                <div class="stat-item" onclick="openDetailModal('avgSalary')" title="مشاهده پرسنل با حقوق بالاتر از میانگین">
-                    <span class="number green" id="statAvgSalary">۰</span>
-                    <span class="label">💰 میانگین حقوق</span>
-                    <div class="hint">فقط فعال‌ها</div>
-                </div>
-                <div class="stat-item" onclick="openDetailModal('maxSalary')" title="مشاهده پرسنل با بیشترین حقوق">
-                    <span class="number" id="statMaxSalary">۰</span>
-                    <span class="label">📈 بیشترین حقوق</span>
-                    <div class="hint">فقط فعال‌ها</div>
-                </div>
-                <div class="stat-item" onclick="openDetailModal('minSalary')" title="مشاهده پرسنل با کمترین حقوق">
-                    <span class="number red" id="statMinSalary">۰</span>
-                    <span class="label">📉 کمترین حقوق</span>
-                    <div class="hint">فقط فعال‌ها</div>
-                </div>
-            </div>
-
-            <!-- KPI پرسنلی -->
-            <div class="kpi-box" id="kpiContainer">
-                <div class="kpi-item">
-                    <span class="number" id="kpiTurnover">۰%</span>
-                    <span class="label">نرخ گردش</span>
-                    <div class="progress-bar-custom"><div class="fill" id="kpiTurnoverBar"></div></div>
-                </div>
-                <div class="kpi-item">
-                    <span class="number" id="kpiAvgTenure">۰</span>
-                    <span class="label">میانگین سابقه (سال)</span>
-                    <div class="progress-bar-custom"><div class="fill" id="kpiTenureBar"></div></div>
-                </div>
-                <div class="kpi-item">
-                    <span class="number" id="kpiHireRate">۰%</span>
-                    <span class="label">نرخ استخدام</span>
-                    <div class="progress-bar-custom"><div class="fill" id="kpiHireBar"></div></div>
-                </div>
-                <div class="kpi-item">
-                    <span class="number" id="kpiExitRate">۰%</span>
-                    <span class="label">نرخ خروج</span>
-                    <div class="progress-bar-custom"><div class="fill" id="kpiExitBar"></div></div>
-                </div>
-            </div>
-
-            <!-- KPI مالی (فقط فعال‌ها) -->
-            <div class="kpi-box" id="kpiFinancialContainer">
-                <div class="kpi-item">
-                    <span class="number blue" id="kpiAvgSalary">۰</span>
-                    <span class="label">💰 میانگین حقوق کل</span>
-                    <div class="progress-bar-custom"><div class="fill" id="kpiAvgSalaryBar"></div></div>
-                </div>
-                <div class="kpi-item">
-                    <span class="number" id="kpiBenefitRatio">۰%</span>
-                    <span class="label">نسبت مزایا به پایه</span>
-                    <div class="progress-bar-custom"><div class="fill" id="kpiBenefitBar"></div></div>
-                </div>
-                <div class="kpi-item">
-                    <span class="number pink" id="kpiSalaryGap">۰</span>
-                    <span class="label">ضریب حقوقی</span>
-                    <div class="progress-bar-custom"><div class="fill" id="kpiGapBar"></div></div>
-                </div>
-                <div class="kpi-item">
-                    <span class="number green" id="kpiHourlyCount">۰</span>
-                    <span class="label">⏱️ پرسنل ساعتی</span>
-                    <div class="progress-bar-custom"><div class="fill" id="kpiHourlyBar"></div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- فیلترها -->
-        <div id="filterSection" style="display:none;" class="filter-section">
-            <div>
-                <label><i class="fas fa-calendar-alt" style="color:var(--primary-light);margin-left:4px;"></i> سال رویداد:</label>
-                <select id="filterYear" onchange="applyFilters()"><option value="all">همه</option></select>
-            </div>
-            <div>
-                <label><i class="fas fa-building" style="color:var(--primary-light);margin-left:4px;"></i> واحد سازمانی:</label>
-                <select id="filterUnit" onchange="applyFilters()"><option value="all">همه</option></select>
-            </div>
-            <div>
-                <label><i class="fas fa-map-marker-alt" style="color:var(--primary-light);margin-left:4px;"></i> محل خدمت:</label>
-                <select id="filterLocation" onchange="applyFilters()"><option value="all">همه</option></select>
-            </div>
-            <div>
-                <label><i class="fas fa-ship" style="color:var(--primary-light);margin-left:4px;"></i> نوع دستگاه:</label>
-                <select id="filterDevice" onchange="applyFilters()">
-                    <option value="all">همه</option>
-                    <option value="daryaei">🌊 دریایی</option>
-                    <option value="khoshki">🏜️ خشکی</option>
-                    <option value="other">🏢 سایر</option>
-                </select>
-            </div>
-            <div>
-                <label><i class="fas fa-clock" style="color:var(--primary-light);margin-left:4px;"></i> نوع کارکرد:</label>
-                <select id="filterHourly" onchange="applyFilters()">
-                    <option value="all">همه</option>
-                    <option value="hourly">⏱️ ساعتی</option>
-                    <option value="normal">📅 عادی</option>
-                </select>
-            </div>
-            <div>
-                <label><i class="fas fa-money-bill-wave" style="color:var(--primary-light);margin-left:4px;"></i> بازه حقوق (تومان):</label>
-                <select id="filterSalaryRange" onchange="applyFilters()">
-                    <option value="all">همه</option>
-                    <option value="0-10">کمتر از ۱۰ میلیون</option>
-                    <option value="10-20">۱۰ تا ۲۰ میلیون</option>
-                    <option value="20-30">۲۰ تا ۳۰ میلیون</option>
-                    <option value="30-50">۳۰ تا ۵۰ میلیون</option>
-                    <option value="50-100">۵۰ تا ۱۰۰ میلیون</option>
-                    <option value="100+">بیشتر از ۱۰۰ میلیون</option>
-                </select>
-            </div>
-            <button class="btn-reset" onclick="resetFilters()">بازنشانی</button>
-            <span id="filterInfo" class="text-muted small" style="margin-right:auto;"></span>
-        </div>
-
-        <!-- نمودارها -->
-        <div id="chartContainer" style="display:none;">
-            <div class="chart-row">
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">📈 استخدام و خروج سالانه</div>
-                    <div class="card-body"><div class="chart-container"><canvas id="yearlyChart"></canvas></div></div>
-                </div>
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">📅 استخدام و خروج ماهانه (سال انتخابی)</div>
-                    <div class="card-body"><div class="chart-container"><canvas id="monthlyChart"></canvas></div></div>
-                </div>
-            </div>
-            <div class="chart-row">
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">📊 هیستوگرام توزیع حقوق (فقط فعال‌ها)</div>
-                    <div class="card-body"><div class="chart-container"><canvas id="salaryHistogramChart"></canvas></div></div>
-                </div>
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">📊 میانگین حقوق به تفکیک واحد (فقط فعال‌ها)</div>
-                    <div class="card-body"><div class="chart-container"><canvas id="salaryByUnitChart"></canvas></div></div>
-                </div>
-            </div>
-            <div class="chart-row chart-row-3">
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">💰 میانگین حقوق به تفکیک جنسیت (فقط فعال‌ها)</div>
-                    <div class="card-body"><div class="chart-container chart-container-sm"><canvas id="salaryByGenderChart"></canvas></div></div>
-                </div>
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">🎓 میانگین حقوق به تفکیک تحصیلات (فقط فعال‌ها)</div>
-                    <div class="card-body"><div class="chart-container chart-container-sm"><canvas id="salaryByEduChart"></canvas></div></div>
-                </div>
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">🏗️ ترکیب حقوق (فقط فعال‌ها)</div>
-                    <div class="card-body"><div class="chart-container chart-container-sm"><canvas id="salaryCompositionChart"></canvas></div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- نمودارهای توزیع -->
-        <div id="pieContainer" style="display:none;">
-            <h5 class="mt-3 mb-2" style="color:var(--text-muted);font-weight:500;">📊 توزیع پرسنل فعلی</h5>
-            <div class="chart-row chart-row-4">
-                <div class="glass-card" style="margin-bottom:0;"><div class="card-header">👤 جنسیت</div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="genderChart"></canvas></div></div></div>
-                <div class="glass-card" style="margin-bottom:0;"><div class="card-header">🎓 تحصیلات</div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="eduChart"></canvas></div></div></div>
-                <div class="glass-card" style="margin-bottom:0;"><div class="card-header">💍 وضعیت تأهل</div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="maritalChart"></canvas></div></div></div>
-                <div class="glass-card" style="margin-bottom:0;"><div class="card-header">📍 محل خدمت</div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="locationChart"></canvas></div></div></div>
-            </div>
-            <div class="chart-row">
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">🏢 توزیع پرسنل در واحدهای سازمانی</div>
-                    <div class="card-body"><div class="chart-container" style="height:220px;"><canvas id="unitChart"></canvas></div></div>
-                </div>
-                <div class="glass-card" style="margin-bottom:0;">
-                    <div class="card-header">📍 توزیع پرسنل بر اساس محل خدمت</div>
-                    <div class="card-body"><div class="chart-container" style="height:220px;"><canvas id="locationDistributionChart"></canvas></div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- جدول -->
-        <div id="tableContainer" style="display:none;">
-            <div class="glass-card">
-                <div class="card-header">
-                    <span>📋 لیست پرسنل</span>
-                    <div>
-                        <span class="text-muted small" id="rowCount">تعداد رکوردها: 0</span>
-                        <button class="btn btn-outline-light btn-sm" onclick="exportTableExcel()" style="border-radius:10px;border-color:rgba(255,255,255,0.1);color:var(--text-muted);margin-right:10px;">
-                            <i class="fas fa-file-excel"></i> خروجی اکسل
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-wrap">
-                        <table>
-                            <thead id="tableHeaders"></thead>
-                            <tbody id="tableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+
+    <!-- ====== کارت‌های آماری ====== -->
+    <div id="statsContainer" style="display:none;">
+        <!-- کارت‌های پرسنلی -->
+        <div class="stats-box">
+            <div class="stat-item" onclick="openDetailModal('active')" title="مشاهده لیست پرسنل فعلی">
+                <span class="number green" id="statActive">0</span>
+                <span class="label">✅ پرسنل فعلی</span>
+                <div class="hint">کلیک کنید</div>
+            </div>
+            <div class="stat-item" onclick="openDetailModal('hire')" title="مشاهده لیست استخدام‌ها">
+                <span class="number" id="statHire">0</span>
+                <span class="label">📅 استخدام‌ها</span>
+                <div class="hint">کلیک کنید</div>
+            </div>
+            <div class="stat-item" onclick="openDetailModal('exit')" title="مشاهده لیست خروج‌ها">
+                <span class="number red" id="statExit">0</span>
+                <span class="label">🚪 خروج‌ها</span>
+                <div class="hint">کلیک کنید</div>
+            </div>
+        </div>
+
+        <!-- کارت‌های مالی (فقط فعال‌ها) -->
+        <div class="stats-box" id="financialStats">
+            <div class="stat-item" onclick="openDetailModal('salary')" title="مشاهده لیست حقوق پرسنل فعال">
+                <span class="number gold" id="statTotalSalary">۰</span>
+                <span class="label">💰 هزینه کل پرسنل</span>
+                <div class="hint">فقط فعال‌ها</div>
+            </div>
+            <div class="stat-item" onclick="openDetailModal('avgSalary')" title="مشاهده پرسنل با حقوق بالاتر از میانگین">
+                <span class="number green" id="statAvgSalary">۰</span>
+                <span class="label">💰 میانگین حقوق</span>
+                <div class="hint">فقط فعال‌ها</div>
+            </div>
+            <div class="stat-item" onclick="openDetailModal('maxSalary')" title="مشاهده پرسنل با بیشترین حقوق">
+                <span class="number" id="statMaxSalary">۰</span>
+                <span class="label">📈 بیشترین حقوق</span>
+                <div class="hint">فقط فعال‌ها</div>
+            </div>
+            <div class="stat-item" onclick="openDetailModal('minSalary')" title="مشاهده پرسنل با کمترین حقوق">
+                <span class="number red" id="statMinSalary">۰</span>
+                <span class="label">📉 کمترین حقوق</span>
+                <div class="hint">فقط فعال‌ها</div>
+            </div>
+        </div>
+
+        <!-- KPI پرسنلی -->
+        <div class="kpi-box" id="kpiContainer">
+            <div class="kpi-item">
+                <span class="number" id="kpiTurnover">۰%</span>
+                <span class="label">نرخ گردش</span>
+                <div class="progress-bar-custom"><div class="fill" id="kpiTurnoverBar"></div></div>
+            </div>
+            <div class="kpi-item">
+                <span class="number" id="kpiAvgTenure">۰</span>
+                <span class="label">میانگین سابقه (سال)</span>
+                <div class="progress-bar-custom"><div class="fill" id="kpiTenureBar"></div></div>
+            </div>
+            <div class="kpi-item">
+                <span class="number" id="kpiHireRate">۰%</span>
+                <span class="label">نرخ استخدام</span>
+                <div class="progress-bar-custom"><div class="fill" id="kpiHireBar"></div></div>
+            </div>
+            <div class="kpi-item">
+                <span class="number" id="kpiExitRate">۰%</span>
+                <span class="label">نرخ خروج</span>
+                <div class="progress-bar-custom"><div class="fill" id="kpiExitBar"></div></div>
+            </div>
+        </div>
+
+        <!-- KPI مالی (فقط فعال‌ها) -->
+        <div class="kpi-box" id="kpiFinancialContainer">
+            <div class="kpi-item">
+                <span class="number blue" id="kpiAvgSalary">۰</span>
+                <span class="label">💰 میانگین حقوق کل</span>
+                <div class="progress-bar-custom"><div class="fill" id="kpiAvgSalaryBar"></div></div>
+            </div>
+            <div class="kpi-item">
+                <span class="number" id="kpiBenefitRatio">۰%</span>
+                <span class="label">نسبت مزایا به پایه</span>
+                <div class="progress-bar-custom"><div class="fill" id="kpiBenefitBar"></div></div>
+            </div>
+            <div class="kpi-item">
+                <span class="number pink" id="kpiSalaryGap">۰</span>
+                <span class="label">ضریب حقوقی</span>
+                <div class="progress-bar-custom"><div class="fill" id="kpiGapBar"></div></div>
+            </div>
+            <div class="kpi-item">
+                <span class="number green" id="kpiHourlyCount">۰</span>
+                <span class="label">⏱️ پرسنل ساعتی</span>
+                <div class="progress-bar-custom"><div class="fill" id="kpiHourlyBar"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== فیلترها ====== -->
+    <div id="filterSection" style="display:none;" class="filter-section">
+        <div>
+            <label><i class="fas fa-calendar-alt" style="color:var(--primary-light);margin-left:4px;"></i> سال رویداد:</label>
+            <select id="filterYear" onchange="applyFilters()"><option value="all">همه</option></select>
+        </div>
+        <div>
+            <label><i class="fas fa-building" style="color:var(--primary-light);margin-left:4px;"></i> واحد سازمانی:</label>
+            <select id="filterUnit" onchange="applyFilters()"><option value="all">همه</option></select>
+        </div>
+        <div>
+            <label><i class="fas fa-map-marker-alt" style="color:var(--primary-light);margin-left:4px;"></i> محل خدمت:</label>
+            <select id="filterLocation" onchange="applyFilters()"><option value="all">همه</option></select>
+        </div>
+        <div>
+            <label><i class="fas fa-ship" style="color:var(--primary-light);margin-left:4px;"></i> نوع دستگاه:</label>
+            <select id="filterDevice" onchange="applyFilters()">
+                <option value="all">همه</option>
+                <option value="daryaei">🌊 دریایی</option>
+                <option value="khoshki">🏜️ خشکی</option>
+                <option value="other">🏢 سایر</option>
+            </select>
+        </div>
+        <div>
+            <label><i class="fas fa-clock" style="color:var(--primary-light);margin-left:4px;"></i> نوع کارکرد:</label>
+            <select id="filterHourly" onchange="applyFilters()">
+                <option value="all">همه</option>
+                <option value="hourly">⏱️ ساعتی</option>
+                <option value="normal">📅 عادی</option>
+            </select>
+        </div>
+        <div>
+            <label><i class="fas fa-money-bill-wave" style="color:var(--primary-light);margin-left:4px;"></i> بازه حقوق (تومان):</label>
+            <select id="filterSalaryRange" onchange="applyFilters()">
+                <option value="all">همه</option>
+                <option value="0-10">کمتر از ۱۰ میلیون</option>
+                <option value="10-20">۱۰ تا ۲۰ میلیون</option>
+                <option value="20-30">۲۰ تا ۳۰ میلیون</option>
+                <option value="30-50">۳۰ تا ۵۰ میلیون</option>
+                <option value="50-100">۵۰ تا ۱۰۰ میلیون</option>
+                <option value="100+">بیشتر از ۱۰۰ میلیون</option>
+            </select>
+        </div>
+        <button class="btn-reset" onclick="resetFilters()">بازنشانی</button>
+        <span id="filterInfo" class="text-muted small" style="margin-right:auto;"></span>
+    </div>
+
+    <!-- ====== نمودارها ====== -->
+    <div id="chartContainer" style="display:none;">
+        <div class="chart-row">
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">📈 استخدام و خروج سالانه</div>
+                <div class="card-body"><div class="chart-container"><canvas id="yearlyChart"></canvas></div></div>
+            </div>
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">📅 استخدام و خروج ماهانه (سال انتخابی)</div>
+                <div class="card-body"><div class="chart-container"><canvas id="monthlyChart"></canvas></div></div>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">📊 هیستوگرام توزیع حقوق (فقط فعال‌ها)</div>
+                <div class="card-body"><div class="chart-container"><canvas id="salaryHistogramChart"></canvas></div></div>
+            </div>
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">📊 میانگین حقوق به تفکیک واحد (فقط فعال‌ها)</div>
+                <div class="card-body"><div class="chart-container"><canvas id="salaryByUnitChart"></canvas></div></div>
+            </div>
+        </div>
+        <div class="chart-row chart-row-3">
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">💰 میانگین حقوق به تفکیک جنسیت (فقط فعال‌ها)</div>
+                <div class="card-body"><div class="chart-container chart-container-sm"><canvas id="salaryByGenderChart"></canvas></div></div>
+            </div>
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">🎓 میانگین حقوق به تفکیک تحصیلات (فقط فعال‌ها)</div>
+                <div class="card-body"><div class="chart-container chart-container-sm"><canvas id="salaryByEduChart"></canvas></div></div>
+            </div>
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">🏗️ ترکیب حقوق (فقط فعال‌ها)</div>
+                <div class="card-body"><div class="chart-container chart-container-sm"><canvas id="salaryCompositionChart"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== نمودارهای توزیع ====== -->
+    <div id="pieContainer" style="display:none;">
+        <h5 class="mt-3 mb-2" style="color:var(--text-muted);font-weight:500;">📊 توزیع پرسنل فعلی</h5>
+        <div class="chart-row chart-row-4">
+            <div class="glass-card" style="margin-bottom:0;"><div class="card-header">👤 جنسیت</div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="genderChart"></canvas></div></div></div>
+            <div class="glass-card" style="margin-bottom:0;"><div class="card-header">🎓 تحصیلات</div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="eduChart"></canvas></div></div></div>
+            <div class="glass-card" style="margin-bottom:0;"><div class="card-header">💍 وضعیت تأهل</div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="maritalChart"></canvas></div></div></div>
+            <div class="glass-card" style="margin-bottom:0;"><div class="card-header">📍 محل خدمت</div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="locationChart"></canvas></div></div></div>
+        </div>
+        <div class="chart-row">
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">🏢 توزیع پرسنل در واحدهای سازمانی</div>
+                <div class="card-body"><div class="chart-container" style="height:220px;"><canvas id="unitChart"></canvas></div></div>
+            </div>
+            <div class="glass-card" style="margin-bottom:0;">
+                <div class="card-header">📍 توزیع پرسنل بر اساس محل خدمت</div>
+                <div class="card-body"><div class="chart-container" style="height:220px;"><canvas id="locationDistributionChart"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== جدول ====== -->
+    <div id="tableContainer" style="display:none;">
+        <div class="glass-card">
+            <div class="card-header">
+                <span>📋 لیست پرسنل</span>
+                <div>
+                    <span class="text-muted small" id="rowCount">تعداد رکوردها: 0</span>
+                    <button class="btn btn-outline-light btn-sm" onclick="exportTableExcel()" style="border-radius:10px;border-color:rgba(255,255,255,0.1);color:var(--text-muted);margin-right:10px;">
+                        <i class="fas fa-file-excel"></i> خروجی اکسل
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-wrap">
+                    <table>
+                        <thead id="tableHeaders"></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- ====== مودال ====== -->
@@ -771,30 +721,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // ====== رمز عبور ======
-    const APP_PASSWORD = '14051106';
-    const FILE_PASSWORD = '14051106';
-
-    // ====== صفحه ورود ======
-    function checkLogin() {
-        const input = document.getElementById('loginPassword');
-        const error = document.getElementById('loginError');
-        
-        if (input.value === APP_PASSWORD) {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-            error.style.display = 'none';
-            loadFromRepo();
-        } else {
-            error.style.display = 'block';
-            input.value = '';
-            input.focus();
-            setTimeout(() => {
-                error.style.display = 'none';
-            }, 3000);
-        }
-    }
-
     // ====== ذرات ======
     (function initParticles() {
         const canvas = document.getElementById('particles-canvas');
@@ -928,65 +854,53 @@
         };
     }
 
-    // ====== بارگذاری از ریپازیتوری با رمز (نسخه SheetJS) ======
-    async function loadFromRepo() {
-        const overlay = document.getElementById('loadingOverlay');
-        overlay.style.display = 'flex';
-
-        try {
-            // بارگذاری فایل اول
-            const infoResponse = await fetch('data/info.xlsx');
-            if (!infoResponse.ok) {
-                throw new Error('فایل info.xlsx پیدا نشد');
-            }
-            const infoBuffer = await infoResponse.arrayBuffer();
-
-            // بارگذاری فایل دوم
-            const salaryResponse = await fetch('data/salary.xlsx');
-            if (!salaryResponse.ok) {
-                throw new Error('فایل salary.xlsx پیدا نشد');
-            }
-            const salaryBuffer = await salaryResponse.arrayBuffer();
-
-            // ====== خواندن فایل‌ها با رمز با استفاده از SheetJS ======
-            let infoWorkbook, salaryWorkbook;
-            try {
-                infoWorkbook = XLSX.read(infoBuffer, { 
-                    type: 'array',
-                    password: FILE_PASSWORD 
-                });
-            } catch(e) {
-                throw new Error('رمز فایل info.xlsx اشتباه است');
-            }
-            
-            try {
-                salaryWorkbook = XLSX.read(salaryBuffer, { 
-                    type: 'array',
-                    password: FILE_PASSWORD 
-                });
-            } catch(e) {
-                throw new Error('رمز فایل salary.xlsx اشتباه است');
-            }
-
-            // تبدیل به JSON
-            const infoSheet = infoWorkbook.Sheets[infoWorkbook.SheetNames[0]];
-            const salarySheet = salaryWorkbook.Sheets[salaryWorkbook.SheetNames[0]];
-
-            const infoJson = XLSX.utils.sheet_to_json(infoSheet, { defval: '' });
-            const salaryJson = XLSX.utils.sheet_to_json(salarySheet, { defval: '' });
-
-            if (infoJson.length === 0 || salaryJson.length === 0) {
-                throw new Error('یکی از فایل‌های اکسل خالی است.');
-            }
-
-            overlay.style.display = 'none';
-            mergeAndProcessData(infoJson, salaryJson);
-
-        } catch(err) {
-            overlay.style.display = 'none';
-            alert('❌ خطا در بارگذاری داده‌ها:\n' + err.message);
-            console.error(err);
+    // ====== بارگذاری فایل ======
+    function loadFiles(event) {
+        const files = event.target.files;
+        if (files.length < 2) {
+            document.getElementById('errorLog').style.display = 'block';
+            document.getElementById('errorLog').innerHTML = 'لطفاً هر دو فایل (اطلاعات پایه و حقوقی) را انتخاب کنید.';
+            return;
         }
+        document.getElementById('errorLog').style.display = 'none';
+        document.getElementById('errorLog').innerHTML = '';
+        const file1 = files[0];
+        const file2 = files[1];
+        document.getElementById('fileStatus').innerHTML = `
+            <span class="file-item"><span class="icon wait">⏳</span> ${file1.name}</span>
+            <span class="file-item"><span class="icon wait">⏳</span> ${file2.name}</span>
+        `;
+        Promise.all([readFile(file1), readFile(file2)])
+            .then(([data1, data2]) => {
+                document.getElementById('fileStatus').innerHTML = `
+                    <span class="file-item"><span class="icon ok">✅</span> ${file1.name} (${data1.length} رکورد)</span>
+                    <span class="file-item"><span class="icon ok">✅</span> ${file2.name} (${data2.length} رکورد)</span>
+                `;
+                mergeAndProcessData(data1, data2);
+            })
+            .catch(err => {
+                document.getElementById('errorLog').style.display = 'block';
+                document.getElementById('errorLog').innerHTML = 'خطا: ' + err.message;
+                console.error(err);
+            });
+        event.target.value = '';
+    }
+
+    function readFile(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array', cellDates: false });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const json = XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
+                    resolve(json);
+                } catch(err) { reject(err); }
+            };
+            reader.onerror = reject;
+            reader.readAsArrayBuffer(file);
+        });
     }
 
     // ====== ترکیب داده‌ها ======
@@ -2136,19 +2050,137 @@
         XLSX.writeFile(wb, 'لیست_پرسنل.xlsx');
     }
 
-    // ====== صفحه کلید ======
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const loginPage = document.getElementById('loginPage');
-            if (loginPage && loginPage.style.display !== 'none') {
-                checkLogin();
-            }
+    // ====== 🚀 دکمه خروجی نرم‌افزار مستقل ======
+    function exportStandaloneApp() {
+        if (allEmployees.length === 0) {
+            alert('⚠️ ابتدا فایل‌های اکسل را بارگذاری کنید!');
+            return;
         }
-    });
 
-    document.getElementById('loginPassword').addEventListener('input', function() {
-        this.value = this.value.replace(/[^0-9]/g, '');
-    });
+        // گرفتن دیتای کامل
+        const dataToEmbed = allEmployees.map(e => {
+            // فقط فیلدهای مورد نیاز رو نگه دار
+            const { 
+                code, firstName, lastName, status, gender, 
+                maritalStatus, maritalEffectiveDate, birthPlace, 
+                birthDate, issuePlace, issueDate, idNumber, 
+                nationalCode, fatherName, phone, education, 
+                field, address, email, serviceLocation, 
+                position, unit, hireDate, executionDate, 
+                validityDate, jobTitle, mardShoghl, 
+                hoghmaskan, hogholad, mardPayeh, hoghejazb, 
+                hogheseko, bankargari, iyabozehab, contractType, 
+                payehsanavat, komakhiyab, hoghtahol, 
+                maxWorkingHours, fogholadeh,
+                // فیلدهای محاسبه‌شده
+                _age, _tenure, _entryYear, _entryMonth, 
+                _exitYear, _exitMonth, _status, _isInactive,
+                _salary, _baseTotal, _finalSeko, _otherBonuses, 
+                _sideBonuses, _isHourly, _maxHours, _deviceType
+            } = e;
+            
+            return {
+                code, firstName, lastName, status, gender, 
+                maritalStatus, maritalEffectiveDate, birthPlace, 
+                birthDate, issuePlace, issueDate, idNumber, 
+                nationalCode, fatherName, phone, education, 
+                field, address, email, serviceLocation, 
+                position, unit, hireDate, executionDate, 
+                validityDate, jobTitle, mardShoghl, 
+                hoghmaskan, hogholad, mardPayeh, hoghejazb, 
+                hogheseko, bankargari, iyabozehab, contractType, 
+                payehsanavat, komakhiyab, hoghtahol, 
+                maxWorkingHours, fogholadeh,
+                _age, _tenure, _entryYear, _entryMonth, 
+                _exitYear, _exitMonth, _status, _isInactive,
+                _salary, _baseTotal, _finalSeko, _otherBonuses, 
+                _sideBonuses, _isHourly, _maxHours, _deviceType
+            };
+        });
+
+        // خواندن کد HTML فعلی
+        const currentHTML = document.documentElement.outerHTML;
+        
+        // پیدا کردن جای دیتا در کد
+        const embedScript = `
+        // ====== داده‌های جاسازی‌شده ======
+        const EMBEDDED_DATA = ${JSON.stringify(dataToEmbed, null, 2)};
+        
+        // ====== تابع جایگزین برای بارگذاری ======
+        function loadEmbeddedData() {
+            if (EMBEDDED_DATA && EMBEDDED_DATA.length > 0) {
+                processData(EMBEDDED_DATA);
+                document.getElementById('fileStatus').innerHTML = \`
+                    <span class="file-item"><span class="icon ok">✅</span> داده‌های جاسازی‌شده (EMBEDDED) - \${EMBEDDED_DATA.length} رکورد</span>
+                \`;
+                document.querySelector('.upload-area').style.display = 'none';
+                document.getElementById('exportBtnContainer').style.display = 'none';
+                return true;
+            }
+            return false;
+        }
+        
+        // بارگذاری خودکار داده‌ها
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEmbeddedData();
+        });
+        `;
+
+        // ساخت HTML جدید
+        const newHTML = currentHTML
+            .replace('</head>', `
+            <style>
+                .embedded-badge {
+                    background: linear-gradient(135deg, #f59e0b, #f97316);
+                    color: #fff;
+                    padding: 4px 16px;
+                    border-radius: 20px;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    display: inline-block;
+                }
+                .upload-area { display: none; }
+            </style>
+            </head>`)
+            .replace('</body>', `
+            <script>
+                // دیتای جاسازی‌شده
+                const EMBEDDED_DATA = ${JSON.stringify(dataToEmbed, null, 2)};
+                
+                function loadEmbeddedData() {
+                    if (EMBEDDED_DATA && EMBEDDED_DATA.length > 0) {
+                        processData(EMBEDDED_DATA);
+                        document.getElementById('fileStatus').innerHTML = \`
+                            <span class="file-item"><span class="icon ok">✅</span> داده‌های جاسازی‌شده - \${EMBEDDED_DATA.length} رکورد</span>
+                        \`;
+                        const uploadArea = document.querySelector('.upload-area');
+                        if (uploadArea) uploadArea.style.display = 'none';
+                        const exportBtn = document.getElementById('exportBtnContainer');
+                        if (exportBtn) exportBtn.style.display = 'none';
+                        return true;
+                    }
+                    return false;
+                }
+                
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(loadEmbeddedData, 100);
+                });
+            <\/script>
+            </body>`);
+
+        // دانلود فایل
+        const blob = new Blob([newHTML], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'داشبورد_مستقل.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert('✅ نرم‌افزار مستقل با موفقیت ساخته شد!\nفایل دانلود شد. آن را به هر کس بدهید، بدون نیاز به آپلود کار میکند.');
+    }
 </script>
 </body>
 </html>
