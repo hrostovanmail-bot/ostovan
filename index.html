@@ -8,10 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- ====== فقط xlsx-populate ====== -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx-populate@1.20.1/xlsx-populate.min.js"></script>
-    <!-- ====== xlsx برای خروجی اکسل ====== -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <!-- ====== کتابخونه xlsx برای خواندن فایل‌های رمزدار ====== -->
+    <!-- این نسخه از SheetJS از رمز پشتیبانی میکنه -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    
     <style>
         /* ====== همه استایل‌ها مثل قبل ====== */
         :root {
@@ -927,7 +928,7 @@
         };
     }
 
-    // ====== بارگذاری از ریپازیتوری با رمز (فقط xlsx-populate) ======
+    // ====== بارگذاری از ریپازیتوری با رمز (نسخه SheetJS) ======
     async function loadFromRepo() {
         const overlay = document.getElementById('loadingOverlay');
         overlay.style.display = 'flex';
@@ -936,69 +937,43 @@
             // بارگذاری فایل اول
             const infoResponse = await fetch('data/info.xlsx');
             if (!infoResponse.ok) {
-                throw new Error('فایل info.xlsx پیدا نشد. مطمئن شوید در مسیر data/ قرار دارد.');
+                throw new Error('فایل info.xlsx پیدا نشد');
             }
             const infoBuffer = await infoResponse.arrayBuffer();
 
             // بارگذاری فایل دوم
             const salaryResponse = await fetch('data/salary.xlsx');
             if (!salaryResponse.ok) {
-                throw new Error('فایل salary.xlsx پیدا نشد. مطمئن شوید در مسیر data/ قرار دارد.');
+                throw new Error('فایل salary.xlsx پیدا نشد');
             }
             const salaryBuffer = await salaryResponse.arrayBuffer();
 
-            // ====== خواندن فایل‌ها با رمز ======
+            // ====== خواندن فایل‌ها با رمز با استفاده از SheetJS ======
             let infoWorkbook, salaryWorkbook;
             try {
-                infoWorkbook = await XLSXPopulate.fromDataAsync(infoBuffer, { password: FILE_PASSWORD });
+                infoWorkbook = XLSX.read(infoBuffer, { 
+                    type: 'array',
+                    password: FILE_PASSWORD 
+                });
             } catch(e) {
-                throw new Error('رمز فایل info.xlsx اشتباه است یا فایل خراب است.');
+                throw new Error('رمز فایل info.xlsx اشتباه است');
             }
+            
             try {
-                salaryWorkbook = await XLSXPopulate.fromDataAsync(salaryBuffer, { password: FILE_PASSWORD });
+                salaryWorkbook = XLSX.read(salaryBuffer, { 
+                    type: 'array',
+                    password: FILE_PASSWORD 
+                });
             } catch(e) {
-                throw new Error('رمز فایل salary.xlsx اشتباه است یا فایل خراب است.');
+                throw new Error('رمز فایل salary.xlsx اشتباه است');
             }
 
             // تبدیل به JSON
-            const infoSheet = infoWorkbook.sheet(0);
-            const salarySheet = salaryWorkbook.sheet(0);
+            const infoSheet = infoWorkbook.Sheets[infoWorkbook.SheetNames[0]];
+            const salarySheet = salaryWorkbook.Sheets[salaryWorkbook.SheetNames[0]];
 
-            // گرفتن دیتا از شیت‌ها
-            const infoData = infoSheet.usedRange().value();
-            const salaryData = salarySheet.usedRange().value();
-
-            if (!infoData || infoData.length < 2) {
-                throw new Error('فایل info.xlsx خالی است یا ساختار مناسبی ندارد.');
-            }
-            if (!salaryData || salaryData.length < 2) {
-                throw new Error('فایل salary.xlsx خالی است یا ساختار مناسبی ندارد.');
-            }
-
-            // استخراج هدرها
-            const infoHeaders = infoData[0];
-            const salaryHeaders = salaryData[0];
-
-            // تبدیل به JSON
-            const infoJson = [];
-            for (let i = 1; i < infoData.length; i++) {
-                const row = infoData[i];
-                const obj = {};
-                infoHeaders.forEach((h, idx) => {
-                    obj[h] = row[idx] || '';
-                });
-                infoJson.push(obj);
-            }
-
-            const salaryJson = [];
-            for (let i = 1; i < salaryData.length; i++) {
-                const row = salaryData[i];
-                const obj = {};
-                salaryHeaders.forEach((h, idx) => {
-                    obj[h] = row[idx] || '';
-                });
-                salaryJson.push(obj);
-            }
+            const infoJson = XLSX.utils.sheet_to_json(infoSheet, { defval: '' });
+            const salaryJson = XLSX.utils.sheet_to_json(salarySheet, { defval: '' });
 
             if (infoJson.length === 0 || salaryJson.length === 0) {
                 throw new Error('یکی از فایل‌های اکسل خالی است.');
